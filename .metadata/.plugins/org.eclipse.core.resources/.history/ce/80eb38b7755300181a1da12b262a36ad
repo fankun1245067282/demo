@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 整合Dubbo -->
+	<!-- 第一步：Dubbo起名称 计算用此名称来区分 -->
+	<dubbo:application name="service-provider" />
+	<!-- 多协议暴露服务 -->
+	<!-- 第二步：中介 注册中心: zookeeper redis ... -->
+	<!-- <dubbo:registry address="127.0.0.1:2181" protocol="zookeeper"/> -->
+    <dubbo:registry id="registry" address="127.0.0.1:2181" />
+    <!-- 多协议配置 -->
+    <dubbo:protocol name="dubbo" port="20880" />
+    <dubbo:protocol name="hessian" port="8080" />
+    <!-- 使用多个协议暴露服务 -->
+    <dubbo:service id="helloService" interface="com.alibaba.hello.api.HelloService" version="1.0.0" protocol="dubbo,hessian" />
+
+	<!-- 第四步：设置服务提供方 提供的接口 接口里面用到的实体类要实现序列化接口 -->
+	<dubbo:service interface="dubbo.test.interfaces.TestTbService"
+		ref="testTbService"  protocol="dubbo,hessian"/>
+
+	<!-- 只注册，不订阅 -->
+	<!-- <dubbo:registry id="hzRegistry" address="10.20.153.10:9090" /> -->
+	<!-- <dubbo:registry id="qdRegistry" address="10.20.141.150:9090" subscribe="false" 
+		/> -->
+	<!-- 或者 -->
+	<!-- <dubbo:registry id="hzRegistry" address="10.20.153.10:9090" /> -->
+	<!-- <dubbo:registry id="qdRegistry" address="10.20.141.150:9090?subscribe=false" 
+		/> -->
+
+</beans>

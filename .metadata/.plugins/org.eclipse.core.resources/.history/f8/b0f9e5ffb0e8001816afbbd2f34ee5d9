@@ -1,0 +1,34 @@
+package com.fankun.io.channel;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class Test {
+	public static void main(String[] args) throws IOException {
+		File file = new File("D:\\test/timer.sql");
+		FileInputStream in=  new FileInputStream(file);
+		byte[] bytes = new byte[64];
+		int n;
+		while((n=in.read(bytes))!=-1) {
+			System.out.println(new String(bytes,0,n));
+		}
+		in.close();
+		
+		//这两种发方式都可以读取文件。哈哈哈
+		FileChannel fileChannel = in.getChannel();
+		ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+		while(true) {
+			fileChannel.read(byteBuffer);
+			byteBuffer.flip();
+			if(byteBuffer.remaining()>0) {
+				System.out.println(new String(bytes,0,byteBuffer.remaining()));
+			}else {
+				break;
+			}
+		}
+		
+	}
+}

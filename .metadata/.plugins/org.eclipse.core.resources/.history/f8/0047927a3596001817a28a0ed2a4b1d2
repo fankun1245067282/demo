@@ -1,0 +1,8 @@
+package com.test.thread;
+
+public class TestHarness {
+
+	public long timeTasks(int nThreads, final Runnable task) {
+		return (long) 0;
+	}
+}

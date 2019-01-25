@@ -1,0 +1,20 @@
+package com.fk.test.paxos;
+
+public class ResponseNode {
+	private Integer AcceptN;//批准的提议编号
+	private Integer AcceptV;//每个决策者是批准value相同的Request，就是第一个Reqeust的value
+	public Integer getAcceptN() {
+		return AcceptN;
+	}
+	public void setAcceptN(Integer acceptN) {
+		AcceptN = acceptN;
+	}
+	public Integer getAcceptV() {
+		return AcceptV;
+	}
+	public void setAcceptV(Integer acceptV) {
+		AcceptV = acceptV;
+	}
+	
+}
+

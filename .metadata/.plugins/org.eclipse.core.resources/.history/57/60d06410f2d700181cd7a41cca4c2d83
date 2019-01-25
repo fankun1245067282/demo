@@ -1,0 +1,76 @@
+package com.fk.test.paxos;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+public class Acceptor extends Thread {
+	//Acceptor批准的value值，会批准最大编号请求的value
+	public Integer value = null;
+	public Integer lastAcceptRequestNum = null;
+	public List<Request> allAcceptRequests = new ArrayList<>();;
+	//决策者获取的请求，同步处理
+	public LinkedBlockingQueue<Request> requests = new LinkedBlockingQueue<>();
+	public Map<String, Response>  propseResponse = new ConcurrentHashMap<>();
+	
+	public Acceptor(String name) {
+		super(name);
+	}
+	
+	public void run() {
+		while(true) {
+			try {
+				Request request = requests.take();//获取请求队列中的请求，没有会阻塞
+				Response response = new Response();
+				//proposer请求
+				if(Request.REQUEST_TYPE_PROPSOER.equals(request.getRequestType())) {
+					
+					//第一次请求，之前没有批准过，所以value返回null
+					if(value==null) {
+						value = request.getValue();
+						lastAcceptRequestNum = request.getRequestNum();
+						response.setValue(null);//之前没有批准过，所以返回null
+						allAcceptRequests.add(request);
+						System.out.println("决策者"+this.getName()+" 批准了  "+value+" 提议者");
+						
+						//M1>M0,且value1=value0
+					}else if(request.getRequestNum().intValue()>lastAcceptRequestNum.intValue()
+							&& request.getValue().intValue()==value.intValue()){
+						response.setValue(value);
+						response.setAcceptRequestNum(request.getRequestNum());
+						allAcceptRequestNums.add(request.getRequestNum());
+						lastAcceptRequestNum = request.getRequestNum();
+					}else {
+						response.setValue(value);
+						response.setAcceptRequestNum(lastAcceptRequestNum);
+					}
+					response.setAcceptorName(this.getName());
+					
+					propseResponse.put(String.valueOf(request.getRequestNum().intValue()), response);
+					System.out.println(this.getName() + "处理了：::"+request+"  结果："+request.getRequestNum()+"==="+response);
+					
+					
+					
+				//acceptor请求
+				}else {
+					
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
+}

@@ -1,0 +1,41 @@
+package com.fankun.netty02;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Test {
+    private String getExpectAccountTime(){
+        String expectTime = "";
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,0);
+        calendar.add(Calendar.HOUR_OF_DAY,4);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);//星期一 2，星期二 3，星期三 4，星期四 5，星期五 6，星期六 7，星期日 1
+        if(day>=2 && day<=5){//工作日
+            expectTime = "24小时";
+        }else if(day==6){//星期五
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            if(hour<18){
+                expectTime = "24小时";
+            }else{
+                calendar.add(Calendar.DATE,3);
+                expectTime = getDateTime("MM月dd日",calendar.getTime());
+            }
+        }else if(day==1){//星期日
+            calendar.add(Calendar.DATE,1);
+            expectTime = getDateTime("MM月dd日",calendar.getTime());
+        }else{//星期六
+            calendar.add(Calendar.DATE,2);
+            expectTime = getDateTime("MM月dd日",calendar.getTime());
+        }
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//        System.out.println("----hour:"+hour);
+//        System.out.println("----day:"+day);
+//        System.out.println("----expectTime:"+expectTime);
+        return expectTime;
+    }
+    
+    public String getDateTime(String format,Date date){
+    	SimpleDateFormat sdf =new SimpleDateFormat(format);
+    	return sdf.format(date);
+    }
+}

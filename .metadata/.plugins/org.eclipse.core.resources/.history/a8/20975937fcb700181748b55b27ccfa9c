@@ -1,0 +1,26 @@
+package com.spring.test.model.singleton;
+
+public class Singleton4 {
+	static {
+		System.out.println("LazyHolder static{} ...... ");
+	}
+	
+	private static class LazyHolder{
+		private static final Singleton4 INSTANCE = new Singleton4();
+		static {
+			System.out.println("LazyHolder static{} ...... ");
+		}
+	}
+	
+	private Singleton4() {
+		System.out.println("Singleton4 Constructor ...... ");
+	}
+	
+	public static final Singleton4 getInstance() {
+		return LazyHolder.INSTANCE;
+	}
+	//类装在
+	//从上往下
+	//先属性，后方法，
+	//先静态，后动态
+}

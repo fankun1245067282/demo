@@ -1,0 +1,64 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ */
+public class Response {
+	public final static String pok = "pok";//表示没有批准过任何人
+	public final static String pok = "pok";//表示没有批准过任何人
+	public final static String pok = "pok";//表示没有批准过任何人
+	private String acceptorName = null;//决策者名称
+	private String proposerName = null;//提议者名称
+	private Integer AcceptN;//批准的提议编号
+	private Integer AcceptV;//每个决策者是批准value相同的Request，就是第一个Reqeust的value
+	public Request request = null; 
+	
+	public String getAcceptorName() {
+		return acceptorName;
+	}
+
+
+	public void setAcceptorName(String acceptorName) {
+		this.acceptorName = acceptorName;
+	}
+
+
+	public String getProposerName() {
+		return proposerName;
+	}
+
+
+	public void setProposerName(String proposerName) {
+		this.proposerName = proposerName;
+	}
+
+
+	public Integer getAcceptN() {
+		return AcceptN;
+	}
+
+
+	public void setAcceptN(Integer acceptN) {
+		AcceptN = acceptN;
+	}
+
+
+	public Integer getAcceptV() {
+		return AcceptV;
+	}
+
+
+	public void setAcceptV(Integer acceptV) {
+		AcceptV = acceptV;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Response [acceptorName=" + acceptorName + ", proposerName=" + proposerName + ", AcceptN=" + AcceptN
+				+ ", AcceptV=" + AcceptV + ", request=" + request + "]";
+	}
+
+	
+	
+}

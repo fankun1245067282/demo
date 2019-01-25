@@ -1,0 +1,36 @@
+package com.fk.test.paxos;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+public class Acceptor extends Thread {
+	//决策者获取的请求，同步处理
+	public LinkedBlockingQueue<Request> requests = new LinkedBlockingQueue<>();
+	public Map<Integer, Response>  propseResponse = new ConcurrentHashMap<>();
+	
+	public Acceptor(String name) {
+		super(name);
+	}
+	
+	public void run() {
+		
+		while(true) {
+			try {
+				Request request = requests.take();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
+}

@@ -1,0 +1,7 @@
+package com.gupaoedu.vip.jdbc.test;
+
+public class TestClassGeneric {
+	public static MyClass extends ArrayList<Integer>(){
+		
+	}
+}

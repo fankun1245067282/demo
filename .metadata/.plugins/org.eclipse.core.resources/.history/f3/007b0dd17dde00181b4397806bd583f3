@@ -1,0 +1,55 @@
+package com.fankun._12.selfproto;
+/**
+ * Attachment 支持的数据类型
+ * @author Administrator
+ *
+ */
+public enum AttachmentType {
+	Byte(Byte.class,(byte)0),
+	Short(Short.class,(byte)1),
+	Integer(Integer.class,(byte)2),
+	Long(Long.class,(byte)3),
+	Float(Float.class,(byte)4),
+	Double(Double.class,(byte)5),
+	String(String.class,(byte)6),
+	JSONObject(Long.class,(byte)7),;
+
+	private Class<?> clazz;
+	private byte value;
+	private AttachmentType(Class<?> clazz,byte value) {
+		this.clazz = clazz;
+		this.value = value;
+	}
+	
+	public byte getValue() {
+		return value;
+	}
+	public Class<?> getClazz() {
+		return clazz;
+	}
+	
+	public static Class<?> getClazzByValue(Byte value) {
+		if (value == null) {
+			return null;
+		}
+		for (AttachmentType type : AttachmentType.values()) {
+			if (type.getValue() == value.intValue()) {
+				return type.getClazz();
+			}
+		}
+		return null;
+	}
+	
+	public static Byte getValueByClazz(Class<?> clazz){
+		if (clazz == null) {
+			return null;
+		}
+		
+		for(AttachmentType type:AttachmentType.values()) {
+			if(type.getClass()==clazz) {
+				return type.getValue();
+			}
+		}
+		return null;
+	}
+}

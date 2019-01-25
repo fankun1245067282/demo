@@ -1,0 +1,9 @@
+package com.spring.test.model.myproxy;
+/**
+ * 代码生成,编译,重新动态load到jvm中
+ * @author Administrator
+ *
+ */
+public class MyClassLoader extends ClassLoader{
+
+}

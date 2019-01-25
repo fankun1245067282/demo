@@ -1,0 +1,13 @@
+package com.gupaoedu.vip.jdbc.test;
+
+import java.util.ArrayList;
+
+public class TestClassGeneric {
+	public static class MyClass extends ArrayList<Integer>{
+		
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+}

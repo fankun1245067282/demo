@@ -1,0 +1,42 @@
+package com.fk.test.lock;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class TestReentrantLock {
+	
+	public static final ReentrantLock  lock = new ReentrantLock();
+	public static final Condition  condition = lock.newCondition();
+	public static int count = 0;
+	public static Thread t1 = new Thread() {
+		public void run() {
+			lock.lock();
+			try {
+				count++;
+				System.out.println("幻想。。。");
+				condition.wait();
+				System.out.println("幻想。。。结束");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}finally{
+				lock.unlock();
+			}
+		}
+	};
+	public static Thread t2 = new Thread() {
+		public void run() {
+			lock.lock();
+			try {
+				count++;
+				System.out.println("幻想。。。");
+				condition.signal();
+				System.out.println("幻想。。。结束");
+			}finally{
+				lock.unlock();
+			}
+		}
+	};
+    public static void main(String[] args) {
+     
+    }
+}

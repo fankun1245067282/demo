@@ -1,0 +1,27 @@
+package com.spring.test.aop;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class UserTest {
+	/**
+	 * aop作用
+	 * 权限 authentication
+	 * 缓存 caching
+	 * debuging 调试
+	 * logging 日志
+	 * transaction manager 事务管理
+	 * listener（moniter） 监听
+	 */
+    public static void main(String[] args) {  
+    	  
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("myaop.xml");
+  
+        UserService userService = (UserService)ctx.getBean("userService");  
+        userService.addUser();
+        userService.delUser();//
+        FinalService finalService = (FinalService)ctx.getBean("finalService");  
+        finalService.testfinal();//final方法没有被重写
+        
+        ctx.destroy();  
+    }
+}

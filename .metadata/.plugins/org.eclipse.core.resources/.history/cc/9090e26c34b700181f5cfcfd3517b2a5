@@ -1,0 +1,36 @@
+package com.spring.test.model.myproxy;
+
+import java.lang.reflect.Method;
+
+public class Proxy0 implements com.spring.test.model.Person {
+	MyInvocationHandler h;
+
+	public Proxy0(MyInvocationHandler h) {
+		this.h = h;
+	}
+
+	public java.lang.String getName() throws Throwable {
+		Method m = com.spring.test.model.Person.class.getMethod("getName", new Class[] {});
+		return (java.lang.String) this.h.invoke(this, m, null);
+	}
+
+	public void setName(java.lang.String arg0) throws Throwable {
+		Method m = com.spring.test.model.Person.class.getMethod("setName", new Class[] { java.lang.String.class });
+		this.h.invoke(this, m, null);
+	}
+
+	public void findLove() throws Throwable {
+		Method m = com.spring.test.model.Person.class.getMethod("findLove", new Class[] {});
+		this.h.invoke(this, m, null);
+	}
+
+	public java.lang.String getSex() throws Throwable {
+		Method m = com.spring.test.model.Person.class.getMethod("getSex", new Class[] {});
+		return (java.lang.String) this.h.invoke(this, m, null);
+	}
+
+	public void setSex(java.lang.String arg0) throws Throwable {
+		Method m = com.spring.test.model.Person.class.getMethod("setSex", new Class[] { java.lang.String.class });
+		this.h.invoke(this, m, null);
+	}
+}

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+        <!-- 整合Dubbo 分组聚合 参数验证-->
+        <!-- 第一步：Dubbo起名称    计算用此名称来区分   -->
+        <dubbo:application name="service-provider"/>
+        <!-- 第二步：中介  注册中心: zookeeper  redis ... -->
+        <dubbo:registry address="127.0.0.1:2181" protocol="zookeeper" check="false"/>
+        <!-- 第三步：设置dubbo的端口号     接口  -->
+        <dubbo:protocol name="dubbo" port="21818"/>
+        <!-- 第四步：设置服务提供方 提供的接口 接口里面用到的实体类要实现序列化接口-->
+        <dubbo:service  group="test1" interface="dubbo.test.interfaces.TestTbService" ref="testTbService"  />
+        <dubbo:service  group="test2" interface="dubbo.test.interfaces.TestTbService" ref="testTbService2" />     
+        
+        
+		<dubbo:service  interface="dubbo.test.interfaces.ValidationService" ref="validationService" />  
+
+		<dubbo:service interface="dubbo.test.interfaces.CacheService" ref="cacheService"/>
+		
+		<dubbo:service interface="dubbo.test.interfaces.BarService" ref="barService" stub="dubbo.test.service.BarServiceStub" />
+	<!-- <dubbo:service interface="dubbo.test.interfaces.BarService" stub="dubbo.test.service.BarServiceStub" 
+		ref="barService"/> -->
+</beans>

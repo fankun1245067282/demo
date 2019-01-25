@@ -1,0 +1,5 @@
+package com.fk.test.zk;
+
+public class TestFile {
+	public static String rootPath = "D:\\home\\ccmt\\poc-ywf\\logs";
+}

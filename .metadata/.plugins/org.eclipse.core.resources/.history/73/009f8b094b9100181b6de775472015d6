@@ -1,0 +1,7 @@
+package com.fankun.netty02;
+
+public class PooledDirectByteBufferTest {
+	public static void main(String[] args) {
+		PooledByteBuf p = new PooledByteBuf();
+	}
+}

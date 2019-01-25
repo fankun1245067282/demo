@@ -1,0 +1,19 @@
+package dubbo.test.main;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class DubboConsumer {  
+    public static void main(String[] args) throws InterruptedException {  
+        ApplicationContext context = new ClassPathXmlApplicationContext(  
+                new String[] { "/spring/spring-*.xml" });  
+  
+        TestTbService TestTbService = context.getBean("speakInterface",  SpeakInterface.class); // 获取远程服务代理  
+        People people = new People();  
+        people.setAge(7);  
+        System.out.println(speakInterface.speak(people));  
+        // 用于观察zookeeper上节点信息的变化  
+        Thread.sleep(115000);  
+  
+    }  
+}  

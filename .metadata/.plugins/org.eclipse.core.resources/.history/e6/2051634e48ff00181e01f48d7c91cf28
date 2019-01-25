@@ -1,0 +1,166 @@
+package com.fk.test.paxos;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+/**
+ * 提议者
+ * 
+ * @author Administrator Proposer发送获取相应的最大的M0的value值
+ */
+public class Proposer extends Thread {
+	public static volatile boolean IS_CHOOSEN = false;//是否产生出选举结果 false:没有 true已经产生
+	private Acceptor[] acceptors = null;// 决策者
+	private Integer proposalNum = null;//提议编号，用来获取响应Repsonse,决策者是根据提议者保存响应的
+	public Integer proposalValue = null;//保存请求的提议值，判断响应中的返回值是否都为请求中的提议值
+	public Integer proposerNum = null;//提议者的编号
+	
+	private int times = 0;// 第几轮发送请求了
+	private Response[] responseArr = null;
+	private String requestType = null;//请求类型
+
+	public Proposer(String name, Acceptor[] acceptors, Integer proposerNum) {
+		super(name);
+		this.acceptors = acceptors;
+		this.proposerNum = proposerNum;
+	}
+
+	public void run() {
+		Random random = new Random();
+		
+		while (!IS_CHOOSEN) {
+			times++;// 发起轮次请求次数
+
+			Request request = new Request();
+			if (requestType == null) {//没有请求，说明是第一轮请求
+				requestType = Request.REQUEST_TYPE_PREPARE;//prepare请求不用带value值
+				request.setRequestType(requestType);
+				
+			} else {
+				int maxResponseProposalNum = 0;
+				Integer responseValue = null;
+				int responseCount = 0;//响应的数量
+				//prepare请求的返回结果，进入accept请求的前提时，大于一半的请求响应，否则，继续prepare请求
+				if(Request.REQUEST_TYPE_PREPARE.equals(requestType)) {
+					Map<Integer,Integer> responseValueCount = new HashMap<>();
+					for (int i = 0; i < acceptors.length; i++) {
+						Response resp = acceptors[i].propseResponse.get(String.valueOf(proposalNum.intValue()));
+						
+						//说明有响应，没有响应的不统计
+						if(resp!= Response.NULL){
+							responseCount++;
+							if (resp!=Response.NONE) {
+								if (resp.getAcceptN() > maxResponseProposalNum) {
+									maxResponseProposalNum = resp.getAcceptN();//获取最大响应提议编号
+									responseValue = resp.getAcceptV();
+								}
+								Integer count = responseValueCount.get(resp.getAcceptV().intValue());
+								if (count == null) {
+									count = 1;
+								} else {
+									count++;
+								}
+								responseValueCount.put(resp.getAcceptV().intValue(), count.intValue());
+							}
+						}
+					}
+					for(Map.Entry<Integer, Integer> valueCount : responseValueCount.entrySet()){
+						if(valueCount.getValue()>acceptors.length/2) {
+							System.out.println("哈哈哈哈哈----------getKey:"+valueCount.getKey());
+						}
+					}
+					
+					//prepare请求，进入accept请求的前提时，大于一半的请求响应，否则，继续prepare请求
+					if(responseCount>acceptors.length/2) {
+						requestType = Request.REQUEST_TYPE_ACCEPT;
+						if (responseValue == null) {
+							request.setValue(proposerNum);
+						}else {
+							request.setValue(responseValue);
+						}
+						request.setRequestType(requestType);
+					//响应没有超过一半，继续执行，法发送prepare请求
+					}else {
+						requestType = Request.REQUEST_TYPE_PREPARE;//prepare请求不用带value值
+						request.setRequestType(requestType);
+					}
+				
+					
+				//accept请求的返回结果，如果自己的提议被 多数决策者接受，就结束了
+				}else {
+					
+					for (int i = 0; i < acceptors.length; i++) {
+						Response resp = acceptors[i].propseResponse.get(String.valueOf(proposalNum.intValue()));
+						
+						//统计自己的提议被决策者接受的数量
+						//resp== Response.NULL && resp!=Response.NONE && proposalValue.intValue()==resp.getValue().intValue()
+						if (resp == Response.ACCEPT) {
+							responseCount++;
+						}
+					}
+					
+					//提议者的提议被大于一半的决策者接受，则结束，否则继续发送prepare请求
+					if(responseCount>acceptors.length/2) {//responseCount>acceptors.length/2
+						System.err.println("提议者" + this.getName()+" accept请求，超过一半的响应，执行执行结束了."+"proposalValue:"+proposalValue+"  responseCount:"+responseCount+"\n"+Arrays.toString(responseArr));
+						IS_CHOOSEN = true;
+						continue;
+						//发送prepare请求
+					}else {
+						requestType = Request.REQUEST_TYPE_PREPARE;//prepare请求不用带value值
+						request.setRequestType(requestType);
+					}
+				}
+			}
+			proposalValue = request.getValue();//保存请求的提议值，判断响应中的返回值是否都为请求中的提议值
+			proposalNum = TestPaxos.getNextNum();
+			request.setProposerName(this.getName());
+			request.setProposalNum(proposalNum);
+			
+			
+			//************************************************************************
+			//发送请求。。。。。。
+			//************************************************************************
+			System.out.println("*****提议者" + this.getName() + " 开始发送第" + times + "轮发送请求：" + request);
+			for (int i = 0; i < acceptors.length; i++) {
+				try {
+					Thread.sleep(random.nextInt(10) + 10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					acceptors[i].requests.put(request);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+			//************************************************************************
+			//等待回复结果
+			//************************************************************************
+			responseArr = new Response[acceptors.length];
+			int n = 0;
+			while (n != acceptors.length) {//需要所有的决策者都回复
+				n = 0;
+				String resultKey = String.valueOf(proposalNum.intValue());
+				for (int i = 0; i < acceptors.length; i++) {
+					if (acceptors[i].propseResponse.get(resultKey) != null) {
+						n++;
+						responseArr[i] = acceptors[i].propseResponse.get(resultKey);
+						
+					}
+//					System.out.println(""+this.getName()+"-----------resultKey："+resultKey+"   i:"+i+"  N:"+n);
+//					System.out.println(""+this.getName()+"-----------propseResponse："+acceptors[i].propseResponse);
+				}
+			}
+			System.out.println("*****提议者" + this.getName() + " 接收到第" + times + " 轮发送请求响应：" + Arrays.toString(responseArr));
+			//************************************************************************
+		}
+
+	}
+
+}

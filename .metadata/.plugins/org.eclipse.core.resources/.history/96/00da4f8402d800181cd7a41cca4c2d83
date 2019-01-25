@@ -1,0 +1,123 @@
+package com.fk.test.paxos;
+
+import java.util.Arrays;
+import java.util.Random;
+
+/**
+ * 提议者
+ * 
+ * @author Administrator Proposer发送获取相应的最大的M0的value值
+ */
+public class Proposer extends Thread {
+	private Acceptor[] acceptors = null;// 决策者
+	private Integer num = null;//请求编号
+	private Integer proposerNum = null;
+	private int times = 0;// 第几轮发送请求了
+	private Response[] responseArr = null;
+	private int result = 0;// 上一次的结果所有结果的value是否一致
+	private String requestType = null;//请求类型
+
+	public Proposer(String name, Acceptor[] acceptors, Integer proposerNum) {
+		super(name);
+		this.acceptors = acceptors;
+		this.proposerNum = proposerNum;
+	}
+
+	public void run() {
+		Random random = new Random();
+		
+		while (true) {
+			times++;// 发起轮次请求次数
+
+			Request request = new Request();
+			if (requestType == null) {//没有请求，说明是第一轮请求
+				requestType = Request.REQUEST_TYPE_PREPARE;
+				request.setValue(proposerNum);
+				request.setRequestType(requestType);
+			} else {
+				int maxRequestNum = 0;
+				Integer value = null;
+				int responseNum = 0;//响应的数量
+				for (int i = 0; i < acceptors.length; i++) {
+					Response resp = acceptors[i].propseResponse.get(String.valueOf(num.intValue()));
+					if(resp!= Response.NULL){//说明有响应
+						responseNum++;
+						if (resp!=Response.NONE && resp.getAcceptRequestNum() > maxRequestNum) {
+							maxRequestNum = resp.getAcceptRequestNum();//获取最大响应请求 编号
+							value = resp.getValue();
+						}
+					}
+				}
+				//超过一半的响应
+				if(responseNum>acceptors.length/2) {
+					//如果是prepare请求，继续发送accept请求
+					if(Request.REQUEST_TYPE_PREPARE.equals(requestType)) {
+						
+					//如果是accept请求，超过一半的响应，执行结束了
+					}else {
+						System.out.println("提议者" + this.getName()+"accept请求，超过一半的响应，执行执行结束了："+Arrays.toString(responseArr));
+						break;
+					}
+				//响应没有超过一半，继续执行，法发送prepare请求
+				}else {
+					requestType = Request.REQUEST_TYPE_PREPARE;
+					request.setValue(proposerNum);
+					request.setRequestType(requestType);
+				}
+			}
+			
+			num = TestPaxos.getNextNum();
+			request.setProposerName(this.getName());
+			request.setRequestNum(num);
+			System.out.println("提议者" + this.getName() + " 第" + times + "轮发送请求：" + request);
+
+			for (int i = 0; i < acceptors.length; i++) {
+				try {
+					Thread.sleep(random.nextInt(10) + 10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					acceptors[i].requests.put(request);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if (result == 1) {// 所有的执行结果一致
+				System.out.println("提议者" + this.getName() + " 所有结果的value一致：" + Arrays.toString(responseArr));
+				System.out.println("提议者" + this.getName() + "哈哈哈哈哈哈。。。。。。。结束执行");
+				break;
+			}
+			responseArr = new Response[5];
+			int n = 0;
+			while (n != 5) {// 当5个都回复了，就可以结束了
+				n = 0;
+				for (int i = 0; i < acceptors.length; i++) {
+					System.out.println("acceptors"+i+" ==null"+(acceptors[i].propseResponse.get(String.valueOf(num.intValue())) != null));
+					if (acceptors[i].propseResponse.get(String.valueOf(num.intValue())) != null) {
+						System.out.println("num: "+num+acceptors[i]);
+						n++;
+						responseArr[i] = acceptors[i].propseResponse.get(String.valueOf(num.intValue()));
+					}else {
+						
+						
+					}
+				}
+			}
+			result = 1;
+			int resultValue = acceptors[0].propseResponse.get(String.valueOf(num.intValue())).getValue();
+			for (int i = 1; i < acceptors.length; i++) {
+				if (resultValue != acceptors[i].propseResponse.get(String.valueOf(num.intValue())).getValue().intValue()) {
+					result = 0;
+					System.out.println("提议者" + this.getName() + " 所有结果的value不一致：" + Arrays.toString(responseArr));
+					System.out.println("发起新的请求。。。。。。。");
+					break;
+				}
+			}
+		}
+
+	}
+
+}

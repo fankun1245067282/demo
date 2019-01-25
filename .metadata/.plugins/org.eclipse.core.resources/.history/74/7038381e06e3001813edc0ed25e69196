@@ -1,0 +1,25 @@
+package com.fankun._15.bytebuf;
+
+import java.io.UnsupportedEncodingException;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
+public class Test {
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		ByteBuf buf = Unpooled.buffer(40);
+		buf.writeBytes("123456789012345678901234567890".getBytes("utf-8"));
+		System.out.println(buf.writableBytes());
+		 ByteBuf b = buf.readBytes(30);//length不能大于buf的可读长度
+		 byte[] bytes = new byte[31];
+		 
+		 b.readBytes(bytes);//bytes length不能大于b.可读长度
+		 System.out.println(new String(bytes,"utf-8"));
+		 
+		 
+		 buf = Unpooled.buffer(40);
+		 buf.writeBytes("123456789012345678901234567890".getBytes("utf-8"));
+		 ByteBuf buf1 = Unpooled.buffer(30);
+		 buf.readBytes(buf1);//buf1不能大于buf的可读长度
+	}
+}

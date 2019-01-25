@@ -1,0 +1,9 @@
+package com.fk.test.paxos;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+public class Acceptor {
+
+}

@@ -1,0 +1,28 @@
+package com.spring.test.model.myproxy;
+
+import java.io.File;
+
+/**
+ * 代码生成,编译,重新动态load到jvm中
+ * @author Administrator
+ *
+ */
+public class MyClassLoader extends ClassLoader{
+
+	private File baseDir;
+	public MyClassLoader() {
+		String basePath = MyClassLoader.class.getResource("").getPath();
+		System.out.println("basePath:"+basePath);
+		this.baseDir = new File(basePath);
+	}
+	
+	@Override
+	protected Class<?> findClass(String name) throws ClassNotFoundException {
+		String className = MyClassLoader.class.getPackage().getName()+"."+name;
+		if(baseDir!=null) {
+			File classFile = new File(baseDir,name.replaceAll("\\.", "/")+".class");
+		}
+		return super.findClass(name);
+	}
+	
+}

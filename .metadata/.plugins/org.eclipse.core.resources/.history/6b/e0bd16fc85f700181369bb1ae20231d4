@@ -1,0 +1,45 @@
+package com.fk.test.thread;
+
+public class TestThread2 {
+	
+	public final synchronized void testwait() throws InterruptedException {
+		System.out.println("this is t1 method doing 1");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+	}
+	
+	public final synchronized void testsleep() throws InterruptedException {
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+	}
+	static class Run1 implements Runnable{
+		TestThread2 testThread2;
+		
+		public Run1(TestThread2 testThread2) {
+			this.testThread2 = testThread2;
+		}
+		@Override
+		public void run() {
+			try {
+				testThread2.test();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	public static void main(String[] args) throws Exception {
+		TestThread2 testThread2 = new TestThread2();
+		Run1 r1 = new Run1(testThread2);
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r1);
+		t1.start();
+		Thread.sleep(1000);
+		t2.start();
+	}
+}

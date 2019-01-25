@@ -1,0 +1,29 @@
+package com.test.thread;
+
+public class TaskRunnable implements Runnable{
+
+	@Override
+	public void run() {
+		int i = 0;
+		try {
+			while(i<1000) {
+				System.out.println("i="+i);
+				Thread.sleep(800);
+			}
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+	}
+	
+	public static void main(String[] args) {
+		Thread t = new Thread(new TaskRunnable());
+		t.start();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

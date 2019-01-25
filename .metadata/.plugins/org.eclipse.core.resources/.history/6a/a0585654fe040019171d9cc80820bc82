@@ -1,0 +1,56 @@
+package com.fk.test;
+
+import java.lang.reflect.Field;
+
+import sun.misc.Unsafe;
+
+public class SwapObj {
+	public static Unsafe unsafe;
+	static {
+		Field field;
+		try {
+			field = Unsafe.class.getDeclaredField("theUnsafe");
+			field.setAccessible(true);
+			unsafe = (Unsafe) field.get(null);
+		} catch (NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+	}
+	static class Swap{
+		public Swap(int id) {
+			this.id = id;
+		}
+		public Swap() {
+		}
+		private int id;
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		@Override
+		public String toString() {
+			return "Swap [id=" + id + "]";
+		}
+		
+	}
+	
+	static void myswap(Swap o1,Swap o2) {
+		Object[] obj = new Object[]{o1,o2};
+		long baseOffset = unsafe.arrayBaseOffset(Object[].class);
+		unsafe.arrayIndexScale(Object.class);
+	}
+	public static void main(String[] args) {
+		
+	}
+}
+

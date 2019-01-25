@@ -1,0 +1,24 @@
+package dubbo.test.main;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import dubbo.test.bean.TestTB;
+import dubbo.test.interfaces.TestTbService;
+
+public class DubboConsumer {  
+    public static void main(String[] args) throws InterruptedException {  
+        ApplicationContext context = new ClassPathXmlApplicationContext(  
+                new String[] { "/spring/spring-*.xml" });  
+  
+        TestTbService testTbService = context.getBean("testTbService",  TestTbService.class); // 获取远程服务代理  
+        
+        TestTB testTb = new TestTB();
+        testTb.setName("钱学森");
+        System.out.println(testTb);
+        testTbService.insertTestTb(testTb); 
+        // 用于观察zookeeper上节点信息的变化  
+        Thread.sleep(115000);  
+  
+    }  
+}  

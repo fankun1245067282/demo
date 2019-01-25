@@ -1,0 +1,10 @@
+package com.fk.test.thread;
+
+import java.lang.ref.ReferenceQueue;
+
+public class TestThread {
+	public static void main(String[] args) {
+		ReferenceQueue<Class<?>> subclassAuditsQueue = new ReferenceQueue<>();
+		Thread.WeakClassKey a = new Thread.WeakClassKey();
+	}
+}	

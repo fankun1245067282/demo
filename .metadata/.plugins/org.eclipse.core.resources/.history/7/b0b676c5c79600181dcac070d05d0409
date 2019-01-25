@@ -1,0 +1,10 @@
+package com.test.thread;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class TestMap {
+	public static void main(String[] args) {
+		Map<String,String> map = new ConcurrentHashMap<>();
+	}
+}	

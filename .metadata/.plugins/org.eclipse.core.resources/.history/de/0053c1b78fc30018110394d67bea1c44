@@ -1,0 +1,26 @@
+package com.spring.test.jdbc;
+
+import java.sql.DriverManager;
+
+
+public class JdbcTest {
+	
+	public static void main(String[] args) {
+		//最源生的jdbc如何操作？
+		//1、加载驱动类
+		//2、建立连接
+		//3、创建语句集
+		//4、执行
+		//5、获取结果集
+		try {
+			//1
+			Class.forName("com.mysql.jdbc.Driver");
+			//2
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","123456");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+} 

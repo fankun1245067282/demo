@@ -1,0 +1,7 @@
+package com.test.thread;
+
+public class TestMap {
+	public static void main(String[] args) {
+		
+	}
+}	

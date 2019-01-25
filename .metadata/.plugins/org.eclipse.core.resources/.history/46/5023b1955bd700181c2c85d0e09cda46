@@ -1,0 +1,19 @@
+package com.fk.test.paxos;
+/**
+ * 
+ * @author Administrator
+ *
+ */
+public class Proposer extends Thread{
+	
+	
+	private Acceptor[] acceptors;//决策者
+	public Proposer(String name) {
+		super(name);
+	}
+	
+	public void run() {
+		
+	}
+	
+}

@@ -1,0 +1,35 @@
+package com.fk.test.paxos;
+
+import java.io.IOException;
+
+public class TestPaxos {
+	private static Integer num = 0;
+	public static synchronized  Integer getNextNum() {
+		num++;
+		return num;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		Acceptor[] acceptors = new Acceptor[3];
+		for (int i = 1; i <= acceptors.length; i++) {
+			acceptors[i-1] = new Acceptor("A"+i);
+		}
+		for (int i = 1; i <= acceptors.length; i++) {
+			acceptors[i-1].start();
+		}
+		
+		Proposer[] proposers = new Proposer[5];
+		for (int i = 1; i <= proposers.length; i++) {
+			proposers[i-1] = new Proposer("P"+i,acceptors,i);
+		}
+		for (int i = 1; i <= proposers.length; i++) {
+			proposers[i-1].start();
+		}
+//		System.in.read();
+		
+		while(true) {
+			Thread.sleep(1000);
+		}
+		
+	}
+}

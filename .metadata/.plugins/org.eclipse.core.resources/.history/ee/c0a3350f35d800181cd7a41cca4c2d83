@@ -1,0 +1,25 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ */
+public class Response {
+	public final static Response NONE = new Response();//表示没有批准过任何人
+	public final static Response NULL = new Response();//表示没有结果
+	public final static Response ACCEPT = new Response();//表示没有结果
+	private String acceptorName = null;//决策者名称
+	private String proposerName = null;//提议者名称
+	private Integer acceptN;//批准的提议编号
+	private Integer acceptV;//每个决策者是批准value相同的Request，就是第一个Reqeust的value
+
+
+
+	@Override
+	public String toString() {
+		return "Resp[A=" + acceptorName + ", P=" + proposerName + ", AcceptN="
+				+ AcceptN + ", AcceptV=" + AcceptV + "]";
+	}
+
+	
+	
+}

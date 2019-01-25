@@ -1,0 +1,13 @@
+package com.fankun._15.bytebuf;
+
+import java.io.UnsupportedEncodingException;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
+public class Test {
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		ByteBuf buf = Unpooled.buffer(40);
+		buf.writeBytes("1234567890".getBytes("utf-8"));
+	}
+}

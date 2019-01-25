@@ -1,0 +1,22 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ */
+public class Request {
+	private Integer requestNum;//提议者的请求编号，每发起一轮请求，同步获取一次
+	private Integer proposeNum;//提议者的编号（固定不变）acceptNum
+	public Integer getRequestNum() {
+		return requestNum;
+	}
+	public void setRequestNum(Integer requestNum) {
+		this.requestNum = requestNum;
+	}
+	public Integer getProposeNum() {
+		return proposeNum;
+	}
+	public void setProposeNum(Integer proposeNum) {
+		this.proposeNum = proposeNum;
+	}
+
+}

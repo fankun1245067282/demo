@@ -1,0 +1,16 @@
+package com.fk.test.cpu;
+
+public class Worker implements Runnable{
+
+	@Override
+	public void run() {
+		long i = 0;
+		while (true) {
+			i++;
+			if (i % 10000000 == 0) {
+
+			}
+		}
+	}
+
+}

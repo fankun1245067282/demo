@@ -1,0 +1,8 @@
+package com.fankun.nio2.server;
+
+public class TimeServer {
+	public static void main(String[] args) {
+		AsyncTimeServerHandler server = new AsyncTimeServerHandler(8088);
+		new Thread(server,"NIO-AsyncTimeServerHandler-001").start();
+	}
+}

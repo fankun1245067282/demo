@@ -1,0 +1,49 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ */
+public class Request {
+	//两种请求类型
+	public static final String REQUEST_TYPE_PROPOSE = "PROPOSE";
+	public static final String REQUEST_TYPE_ACCEPT = "ACCEPT";
+	private String requestType = null;//请求类型
+	private String proposerName = null;//提议者名称
+	private String proposerName = null;//提议者名称
+	private Integer num;//提议者的提议编号，每发起一轮请求，同步获取一次
+	private Integer value;//提议者建议接受值（如果是选举，就是备选人的编号，如果可以自己选择自己，那应该是选举人自己的编号）
+	
+	public String getRequestType() {
+		return requestType;
+	}
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
+	}
+	public String getProposerName() {
+		return proposerName;
+	}
+	public void setProposerName(String proposerName) {
+		this.proposerName = proposerName;
+	}
+	
+	public Integer getProposalNum() {
+		return proposalNum;
+	}
+	public void setProposalNum(Integer proposalNum) {
+		this.proposalNum = proposalNum;
+	}
+	public Integer getValue() {
+		return value;
+	}
+	public void setValue(Integer value) {
+		this.value = value;
+	}
+	@Override
+	public String toString() {
+		return "Request [Type=" + requestType + ", Name=" + proposerName + ", Num=" + proposalNum
+				+ ", value=" + value + "]";
+	}
+
+
+
+}

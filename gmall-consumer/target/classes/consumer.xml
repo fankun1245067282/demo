@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+<!-- 	<context:component-scan base-package="com.atguigu.gmall.service.impl"></context:component-scan> -->
+	<dubbo:application name="gmall-consumer"></dubbo:application>
+	<dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
+
+	
+	<!--对所有的provider都不检查,配置当前消费者的统一规则 -->
+	<dubbo:consumer check="false" retries="0"></dubbo:consumer>
+	<!--幂等（设置重试次数） 非幂等（不能设置重试次数） -->
+	<!-- 声明需要调用的远程服务的接口；生成远程服务代理 -->
+<!-- 	<dubbo:reference interface="com.atguigu.gmall.service.UserService" id="userService" retries="3" timeout="2000"></dubbo:reference> -->
+
+	<!-- 本地存根 -->
+<!-- 	<dubbo:reference interface="com.atguigu.gmall.service.UserService" id="userService" version="1.0.0" stub="com.atguigu.gmall.service.impl.UserServiceStub"></dubbo:reference> -->
+<!-- 	不使用注册中心，直连：dubbo://ip:port/interfacepath，直连可以不写registory配置，address=N/A配置也可以不用写-->
+<!-- 	<dubbo:reference url="dubbo://localhost:20880/com.atguigu.gmall.service.UserService" interface="com.atguigu.gmall.service.UserService" id="userService" version="1.0.0" stub="com.atguigu.gmall.service.impl.UserServiceStub"></dubbo:reference>		 -->
+	<!--自动发现监控中心 -->
+<!-- 	<dubbo:monitor protocol="registry"></dubbo:monitor> -->
+	<!--直接连接到注册中心 -->
+	<!--<dubbo:monitor address="127.0.0.1:7070"></dubbo:monitor> -->
+	
+	
+<!-- url="hessian://localhost:8090/com.atguigu.gmall.service.UserService"  -->
+<!-- protocol="hessian"  -->
+	<dubbo:reference 
+		
+		id="userService" 
+		interface="com.atguigu.gmall.service.UserService"  
+		version="1.0.0" 
+		stub="com.atguigu.gmall.service.impl.UserServiceStub"></dubbo:reference>		
+	
+<!-- 	<bean id="orderService" class="com.atguigu.gmall.service.impl.OrderServiceImpl"></bean> -->
+	
+
+</beans>

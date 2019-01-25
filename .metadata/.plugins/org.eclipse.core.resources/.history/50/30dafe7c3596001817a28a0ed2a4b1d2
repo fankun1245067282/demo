@@ -1,0 +1,9 @@
+package com.test.thread;
+
+public class TestHarness {
+
+	public long timeTasks(int nThreads, final Runnable task) {
+		final CountDownLatch startGate = new CountDownLatch(1);
+		return (long) 0;
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;TestDirectByteBuffer.java&apos; to &apos;test2/src/main/java/com.fk.test.references&apos;&#x0D;&#x0A;- Original project: &apos;mynetty01&apos;&#x0D;&#x0A;- Destination element: &apos;test2/src/main/java/com.fk.test.references&apos;&#x0D;&#x0A;- Original element: &apos;com.fankun._15.bytebuf.TestDirectByteBuffer.java&apos;" description="Copy compilation unit" destination="=test2/src\/main\/java&lt;com.fk.test.references" element1="/src\/main\/java&lt;com.fankun._15.bytebuf{TestDirectByteBuffer.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1543558915765" units="1" version="1.0"/>
+</session>

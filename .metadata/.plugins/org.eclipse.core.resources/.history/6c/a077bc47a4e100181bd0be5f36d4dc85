@@ -1,0 +1,5 @@
+package com.fankun._12.selfproto.packcoder;
+
+public class LoginAuthReqHandler {
+
+}

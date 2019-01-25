@@ -1,0 +1,10 @@
+package com.fankun.nio2.server;
+
+import com.fankun.nio.server.TimeClientHandle;
+
+public class TimeClient {
+	public static void main(String[] args) {
+		AsyncTimeClientHandler client = new AsyncTimeClientHandler("127.0.0.1",8088);
+		new Thread(client,"TimeClient-001").start();
+	}
+}

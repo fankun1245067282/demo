@@ -1,0 +1,10 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ */
+public class Response {
+	private Integer acceptRequestNum;//最大的请求编号
+	private Integer value;//选定的提议者编号acceptNum
+
+}

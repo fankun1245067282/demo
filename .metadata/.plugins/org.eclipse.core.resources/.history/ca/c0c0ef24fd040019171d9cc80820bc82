@@ -1,0 +1,30 @@
+package com.fk.test;
+
+public class SwapObj {
+	
+	static class Swap{
+		private int id;
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		@Override
+		public String toString() {
+			return "Swap [id=" + id + "]";
+		}
+		
+	}
+	
+	static void myswap(Swap o1,Swap o2) {
+		Object[] obj = new Object()[];
+	}
+	public static void main(String[] args) {
+		
+	}
+}
+

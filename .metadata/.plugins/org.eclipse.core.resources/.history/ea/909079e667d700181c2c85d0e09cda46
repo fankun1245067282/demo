@@ -1,0 +1,27 @@
+package com.fk.test.paxos;
+/**
+ * 提议者
+ * @author Administrator
+ * Proposer发送获取相应的最大的M0的value值
+ */
+public class Proposer extends Thread{
+	private Acceptor[] acceptors = null;//决策者
+	private Integer num = null;
+	private int times = 1;//第几轮发送请求了
+	private Response[]  responseArr = new Response[5];
+	public Proposer(String name,Acceptor[] acceptors) {
+		super(name);
+		this.acceptors = acceptors;
+		
+	}
+	public void run() {
+		int length = acceptors.length;
+		while(true) {
+			num = TestPaxos.getNextNum();
+			Request request = new Request();
+			request.
+		}
+		
+	}
+	
+}

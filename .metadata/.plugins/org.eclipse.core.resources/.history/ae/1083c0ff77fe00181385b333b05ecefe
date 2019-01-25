@@ -1,0 +1,10 @@
+package com.fk.test.cpu;
+
+public class Worker implements Runnable{
+
+	@Override
+	public void run() {
+		
+	}
+
+}

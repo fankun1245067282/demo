@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="gmall-provider"/>
+<aop-project name="gupaoedu-vip-springaop"/>
+<aop-project name="dubboconsumer"/>
+<aop-project name="gupaoedu-vip-springmvc"/>
+<aop-project name="boot-gmall-consumer"/>
+<aop-project name="dubboprovider"/>
+<aop-project name="boot-gmall-provider"/>
+<aop-project name="myspringstudy01"/>
+<aop-project name="gupaoedu-vip-springjdbc"/>
+<aop-project name="gupaoedu-vip-transcation"/>
+<aop-project name="mynetty01"/>
+<aop-project name="boot-web"/>
+<aop-project name="gmall-consumer"/>
+<aop-project name="mynetty2"/>
+</aop-reference-model>

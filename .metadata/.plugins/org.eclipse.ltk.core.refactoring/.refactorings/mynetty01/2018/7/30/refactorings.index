@@ -1,0 +1,28 @@
+1532317642407	Copy compilation unit
+1532326468148	Rename package 'com.fankun.netty.server5'
+1532326488985	Rename package 'com.fankun.netty.server6'
+1532326509111	Rename package 'com.fankun.netty.server7'
+1532326531442	Rename package 'com.fankun.nio'
+1532329594743	Copy compilation unit
+1532333920267	Rename type 'AcceptCompletionHandle'
+1532333927786	Rename type 'ReadCompletionHandle'
+1532333934799	Rename type 'AsyncTimeServerHandle'
+1532335632761	Copy compilation unit
+1532396566305	Rename package 'com.fankun.io.server'
+1532396587482	Rename package 'com.fankun.io.threadpool.server'
+1532396605924	Rename package 'com.fankun.nio.server'
+1532396632847	Rename package 'com.fankun.nio2.server'
+1532396650381	Rename package 'com.fankun.timeserverio.threadpool'
+1532396701715	Rename type 'TimeServere'
+1532412553472	Copy package
+1532414424385	Copy package
+1532416777694	Copy package
+1532416804161	Rename type 'TimeServer'
+1532416820981	Rename type 'TimeServerHandler'
+1532417840671	Rename type 'TimeClient'
+1532417848836	Rename type 'TimeClientHandler'
+1532418249051	Rename package 'com.fankun.echoserver.netty'
+1532418280606	Copy package
+1532423550727	Rename package 'com.fankun.serializable'
+1532504453407	Delete element
+1532504662500	Rename type 'MarshallingEncoder'

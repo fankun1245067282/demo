@@ -1,0 +1,8 @@
+package com.fankun.netty.server7;
+
+public class TimeServer {
+	public static void main(String[] args) {
+		MultiplexerTimerServer server = new MultiplexerTimerServer(8808);
+		new Thread(server,"NIO-MultiplexerTimerServer-001").start();
+	}
+}

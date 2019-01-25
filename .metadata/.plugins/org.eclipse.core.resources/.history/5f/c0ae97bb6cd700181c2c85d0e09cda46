@@ -1,0 +1,62 @@
+package com.fk.test.paxos;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+public class Acceptor extends Thread {
+	//Acceptor第一次批准的value值
+	public Integer value = null;
+	public Integer lastAcceptRequestNum = null;
+	public List<Integer> allAcceptRequestNums = new ArrayList<>();;
+	//决策者获取的请求，同步处理
+	public LinkedBlockingQueue<Request> requests = new LinkedBlockingQueue<>();
+	public Map<Integer, Response>  propseResponse = new ConcurrentHashMap<>();
+	
+	public Acceptor(String name) {
+		super(name);
+	}
+	
+	public void run() {
+		
+		while(true) {
+			try {
+				Request request = requests.take();//获取请求队列中的请求，没有会阻塞
+				Response response = new Response();
+				if(value==null) {
+					value = request.getValue();
+					response.setValue(value);
+					response.setAcceptRequestNum(request.getRequestNum());
+					allAcceptRequestNums.add(request.getRequestNum());
+					lastAcceptRequestNum = request.getRequestNum();
+					System.out.println("决策者"+this.getName()+" 批准了  "+value+" 提议者");
+				}else if(request.getRequestNum().intValue()==value.intValue()){
+					response.setValue(value);
+					response.setAcceptRequestNum(request.getRequestNum());
+					allAcceptRequestNums.add(request.getRequestNum());
+					lastAcceptRequestNum = request.getRequestNum();
+				}else {
+					response.setValue(value);
+					response.setAcceptRequestNum(lastAcceptRequestNum);
+				}
+				response.setAcceptorName(this.getName());
+				propseResponse.put(request.getRequestNum(), response);
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
+}

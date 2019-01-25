@@ -1,0 +1,15 @@
+package com.gupaoedu.vip.jdbc.test;
+
+import java.util.ArrayList;
+
+import javax.core.common.utils.BeanUtils;
+
+public class TestClassGeneric {
+	public static class MyClass extends ArrayList<Integer>{}
+	public static class MyClass extends ArrayList<Integer>{}
+	
+	public static void main(String[] args) {
+		Class c = BeanUtils.getSuperClassGenricType(MyClass.class);
+		System.out.println(c);
+	}
+}

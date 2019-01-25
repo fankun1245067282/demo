@@ -1,0 +1,53 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ */
+public class Response {
+	public final static Response NONE = new Response();//表示没有批准过任何人
+	public final static Response NULL = new Response();//表示没有结果
+	static {
+		NONE.setAcceptRequestNum(-1);
+		NONE.setValue(-1);
+	}
+	private String acceptorName = null;//决策者名称
+	private String proposerName = null;//提议者名称
+	private int acceptRequestNum;//批准的最大的请求编号
+	private Integer value;//每个决策者是批准value相同的Request，就是第一个Reqeust的value
+	
+	
+	public String getAcceptorName() {
+		return acceptorName;
+	}
+	public void setAcceptorName(String acceptorName) {
+		this.acceptorName = acceptorName;
+	}
+	
+	public String getProposerName() {
+		return proposerName;
+	}
+	public void setProposerName(String proposerName) {
+		this.proposerName = proposerName;
+	}
+	public int getAcceptRequestNum() {
+		return acceptRequestNum;
+	}
+	public void setAcceptRequestNum(int acceptRequestNum) {
+		this.acceptRequestNum = acceptRequestNum;
+	}
+	public Integer getValue() {
+		return value;
+	}
+	public void setValue(Integer value) {
+		this.value = value;
+	}
+	
+	@Override
+	public String toString() {
+		return "Resp[A=" + acceptorName + ", P=" + proposerName + ", ANum="
+				+ acceptRequestNum + ", V=" + value + "]";
+	}
+
+	
+	
+}

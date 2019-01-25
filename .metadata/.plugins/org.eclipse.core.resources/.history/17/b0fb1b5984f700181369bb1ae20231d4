@@ -1,0 +1,19 @@
+package com.fk.test.thread;
+
+public class TestThread2 {
+	
+	public synchronized void t1() throws InterruptedException {
+		System.out.println("this is t1 method doing 1");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+	}
+	
+	static class Run1 implements Runnable{
+		
+	}
+	public static void main(String[] args) {
+		
+	}
+}

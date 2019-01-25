@@ -1,0 +1,16 @@
+package mydocx;
+
+import java.text.DecimalFormat;
+
+
+public class TestRound {
+	public static void main(String[] args) {
+		DecimalFormat df= new DecimalFormat(".##");
+		System.out.println(df.format(3.155001));
+		System.out.println(df.format(3.155));
+		System.out.println(df.format(3.154999));
+		System.out.println(DataUtils.round(3.155001, 2));
+		System.out.println(DataUtils.round(3.155, 2));
+		System.out.println(DataUtils.round(3.154999, 2));
+	}
+}

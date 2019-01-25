@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 整合Dubbo 分组测试 ,多版本测试-->
+	<!-- 第一步：Dubbo起名称 计算用此名称来区分 -->
+	<dubbo:application name="service-consumer" />
+	<!-- 第二步：中介 注册中心: zookeeper redis ... -->
+	<!-- 关闭注册中心启动时检查 (注册订阅失败时报错)： check="false"-->
+	<dubbo:registry address="127.0.0.1:2181" protocol="zookeeper" register="false" check="false" />
+	<!-- 第三步：设置dubbo的端口号 接口 -->
+	<dubbo:protocol name="dubbo" />
+	<!-- 第四步：设置服务提供方 提供的接口 -->
+	<dubbo:reference interface="dubbo.test.interfaces.TestTbService"
+		id="testTbService" loadbalance="roundrobin" check="false"  group="test1" version="2.0.0" />
+	<!-- 可以使用不同的分组  group="test1" group="test2" version="2.0.0"  version="1.0.0" -->
+	<!-- loadbalance负载均衡策略 （提供方，消费方都可以）-->
+	<!-- check关闭某个服务的启动时检查 (没有提供者时报错)：check=true，(获取对象的时候)提供方没有启动报错;check=false时，获取对象不会报错 -->
+
+
+
+</beans>

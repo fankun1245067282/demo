@@ -1,0 +1,120 @@
+package com.fk.test.thread;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
+public class TestThread2 {
+	
+	public final synchronized void testwait() throws InterruptedException {
+		System.out.println("this is t1 method doing 1");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+	}
+	
+	public final synchronized void testsleep() throws InterruptedException {
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 2");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 3");
+	}
+	
+	public final synchronized void testinterrupt() throws InterruptedException {
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+		long i = 0;
+		long max = Long.MAX_VALUE-5; 
+		long dev = 100000;
+		max = max - (max%dev);
+		System.out.println("max===="+max);
+		System.out.println("isInterrupted==1=="+Thread.currentThread().isInterrupted());
+		while(!Thread.currentThread().isInterrupted() && i<max ) {
+			i++;
+			if(i%dev==0) {
+				System.out.println("i===="+i);
+			}
+		}
+		System.out.println("isInterrupted==2=="+Thread.currentThread().isInterrupted());
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 2");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 3");
+	}
+	
+	
+	static class Run1 implements Runnable{
+		TestThread2 testThread2;
+		
+		public Run1(TestThread2 testThread2) {
+			this.testThread2 = testThread2;
+		}
+		@Override
+		public void run() {
+			try {
+//				testThread2.testwait();
+//				testThread2.testsleep();
+				testThread2.testinterrupt();
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	@Test
+	public void testwaitmain() throws Exception {
+		final TestThread2 testThread2 = new TestThread2();
+		Runnable r1 = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					testThread2.testwait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}};
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r1);
+		t1.start();
+		Thread.sleep(1000);
+		t2.start();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testsleepmain() throws InterruptedException {
+		final TestThread2 testThread2 = new TestThread2();
+		Runnable r1 = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					testThread2.testsleep();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}};
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r1);
+		t1.start();
+		Thread.sleep(1000);
+		t1.interrupt();
+		t2.start();
+	}
+	public static void main(String[] args) throws Exception {
+		TestThread2 testThread2 = new TestThread2();
+		Run1 r1 = new Run1(testThread2);
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r1);
+		t1.start();
+		Thread.sleep(100);
+		t1.interrupt();
+//		t2.start();
+	}
+}

@@ -1,0 +1,5 @@
+package com.spring.test.jdbc.framework;
+
+public class BaseDaoSupport {
+
+}

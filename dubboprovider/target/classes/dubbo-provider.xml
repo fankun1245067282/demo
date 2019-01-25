@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 整合Dubbo -->
+	<!-- 第一步：Dubbo起名称 计算用此名称来区分 -->
+	<dubbo:application name="service-provider" />
+	<!-- 第二步：中介 注册中心: zookeeper redis ... -->
+	<dubbo:registry address="127.0.0.1:2181" protocol="zookeeper" subscribe="false" />
+	<!-- register="false";表示不想注册中心注册，服务端就是从注册中心订阅，不注册的，要是提供方设置register="false" -->
+	<!-- 服务端报错：No provider available for the service -->
+	<!-- subscribe="false";表示只是向注册中心注册注册，不订阅，提供方可以设置为false,消费方不可以设置 否则，报错：No 
+		such any registry to reference -->
+	<!-- <dubbo:registry address="127.0.0.1:2181" protocol="zookeeper" register="false" /> -->
+	<!-- 第三步：设置dubbo的端口号 接口 -->
+	<dubbo:protocol name="dubbo" port="21810" />
+	<!-- 第四步：设置服务提供方 提供的接口 接口里面用到的实体类要实现序列化接口 -->
+	<dubbo:service interface="dubbo.test.interfaces.TestTbService"
+		ref="testTbService" loadbalance="roundrobin" />
+	<!-- loadbalance负载均衡策略（提供方，消费方都可以） -->
+</beans>

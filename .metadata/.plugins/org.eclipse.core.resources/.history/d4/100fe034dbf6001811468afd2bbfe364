@@ -1,0 +1,6 @@
+package com.fk.test.thread;
+
+public class TestThread {
+	public static void main(String[] args) {
+	}
+}	

@@ -1,0 +1,126 @@
+package com.fk.test;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.HashSet;
+
+import org.junit.Test;
+
+import com.fk.test.unsafe.SuperArray;
+import com.fk.test.unsafe.UnsafeClass;
+
+import sun.misc.Unsafe;
+
+public class SwapObj {
+	public static Unsafe unsafe;
+	static {
+		Field field;
+		try {
+			field = Unsafe.class.getDeclaredField("theUnsafe");
+			field.setAccessible(true);
+			unsafe = (Unsafe) field.get(null);
+		} catch (NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+	}
+	static class Swap{
+		public Swap(int id) {
+			this.id = id;
+		}
+		public Swap() {
+		}
+		private int id;
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		@Override
+		public String toString() {
+			return "Swap [id=" + id + "]";
+		}
+		
+	}
+	private static long normalize(int value) {
+		if (value >= 0)
+			return value;
+		return (~0L >>> 32) & value;
+	}
+	public static long sizeOf1(Object object) {
+		HashSet<Field> fields = new HashSet<Field>();
+		Class<?> c = object.getClass();
+		while (c != Object.class) {
+			for (Field f : c.getDeclaredFields()) {
+				if ((f.getModifiers() & Modifier.STATIC) == 0) {
+					fields.add(f);
+//					System.out.println("t:"+f); 
+				}else {
+//					System.out.println("f:"+f);这是静态属性
+				}
+			}
+			c = c.getSuperclass();
+		}
+		// get offset
+		long maxSize = 0;
+		for (Field f : fields) {
+			long offset = unsafe.objectFieldOffset(f);
+			if (offset > maxSize) {
+				maxSize = offset;
+			}
+		}
+		System.out.println("max:"+maxSize);
+		return ((maxSize / 8) + 1) * 8; // padding
+	}
+	@Test
+	public void testSizeof() {
+		UnsafeClass un = new UnsafeClass();
+		System.out.println(sizeOf1(un)); 
+		SuperArray sa = new SuperArray(0);
+		System.out.println(sizeOf1(sa)); 
+	}
+ 
+	static void myswap(Swap o1,Swap o2) {
+		Object[] obj = new Object[]{o1,o2};
+		long baseOffset = unsafe.arrayBaseOffset(obj.getClass());
+		long n = normalize(unsafe.getInt(obj, baseOffset));
+		long n2 = normalize(unsafe.getInt(obj, baseOffset)+4);
+		int size = sizeOf1(o1);
+		long address = unsafe.allocateMemory(size);
+		System.out.println("to："+address);
+		unsafe.copyMemory(n, address, size);
+		unsafe.copyMemory(n2, n, size);
+		unsafe.copyMemory(address, n2, size);
+		
+		
+		System.out.println("baseOffset:"+baseOffset);
+		System.out.println("n:"+n);
+		System.out.println("n:"+n2);
+		System.out.println(Arrays.toString(obj));
+		unsafe.putInt(n, (int)n2);
+		unsafe.putInt(n2, (int)n);
+		System.out.println("a:"+o1);
+		System.out.println("b:"+o2);
+		System.out.println(Arrays.toString(obj));
+	}
+	public static void main(String[] args) {
+		Swap a = new Swap(1);
+		Swap b = new Swap(2);
+		System.out.println("a:"+a);
+		System.out.println("b:"+b);
+		
+		myswap(a,b);
+		System.out.println("a:"+a);
+		System.out.println("b:"+b);
+	}
+}
+

@@ -1,0 +1,13 @@
+package com.fk.test.paxos;
+
+public class Proposer extends Thread{
+	
+	public Proposer(String name) {
+		super(name);
+	}
+	
+	public void run() {
+		
+	}
+	
+}

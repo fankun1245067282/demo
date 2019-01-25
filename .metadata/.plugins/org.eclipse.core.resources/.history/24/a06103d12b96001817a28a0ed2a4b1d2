@@ -1,0 +1,10 @@
+package com.test.thread;
+
+public class TaskRunnable implements Runnable{
+
+	@Override
+	public void run() {
+		
+	}
+
+}

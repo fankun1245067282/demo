@@ -1,0 +1,13 @@
+package com.fk.test.paxos;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+
+import java.util.Map;
+
+public class Acceptor {
+	
+	public Map<String, String> = propseResult
+}

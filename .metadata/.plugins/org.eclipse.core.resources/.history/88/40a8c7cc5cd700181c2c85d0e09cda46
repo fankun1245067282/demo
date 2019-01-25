@@ -1,0 +1,10 @@
+package com.fk.test.paxos;
+/**
+ * 提议者向决策者发起的请求参数
+ * @author Administrator
+ *
+ */
+public class Request {
+	private Integer requestNum;//提议者的请求编号，每发起一轮请求，同步获取一次
+	private Integer ProposeNum;//提议者的编号（固定不变）
+}

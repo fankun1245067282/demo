@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- <context:component-scan base-package="dubbo.test"/> -->
+	<context:component-scan base-package="dubbo.test.service" />
+	<!-- 文件名包含.xml后缀 -->
+	<!-- 原始测试 -->
+<!-- 	<import resource="dubbo-provider.xml" /> -->
+	<!-- 直接连接测试 -->
+<!-- 	<import resource="dubbo-provider2.xml" /> -->
+	<!-- 多协议测试 -->
+<!-- 	<import resource="dubbo-provider3.xml" /> -->
+	<!-- 分组测试 ,多版本测试 -->
+<!-- 	<import resource="dubbo-provider4.xml" /> -->
+	<!-- 分组聚合 参数验证 -->
+	<import resource="dubbo-provider5.xml" />
+<!-- 	<import resource="dubbo-provider6.xml" /> -->
+
+
+       
+</beans>

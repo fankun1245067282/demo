@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 使用注解方式完成映射 -->
+	<!-- 让扫描spring扫描这个包下所有的类，让标注spring注解的类生效 -->
+	<!-- 这样更大范围的包就行了，包括dubbo.test.controller，dubbo.test.service -->
+	<!-- <context:component-scan base-package="dubbo.test" /> -->
+	<context:component-scan base-package="dubbo.test.controller" />
+
+	<!-- 开启注解,扫描开启，这个可以不用开启 -->
+	<!-- <mvc:annotation-driven/> -->
+
+	<!-- 视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+</beans>

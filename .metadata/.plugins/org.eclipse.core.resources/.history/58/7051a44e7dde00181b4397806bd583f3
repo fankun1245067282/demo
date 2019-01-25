@@ -1,0 +1,86 @@
+package com.fankun._12.selfproto;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.fankun._10.httpnetty.JSONObject;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToMessageEncoder;
+
+public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMessage> {
+	
+	@Override
+	protected void encode(ChannelHandlerContext ctx, NettyMessage msg, List<Object> out) throws Exception {
+		if(msg==null || msg.getHeader()==null) {
+			throw new Exception("The encoder message is null!");
+		}
+		ByteBuf sendBuf = Unpooled.buffer();
+		Header header = msg.getHeader();
+		sendBuf.writeInt(header.getCrcCode());
+		sendBuf.writeInt(header.getLength());
+		sendBuf.writeLong(header.getSessionID());
+		sendBuf.writeByte(header.getType());
+		sendBuf.writeByte(header.getPriority());	
+		sendBuf.writeInt(header.getAttachment().size());
+		
+		String key = null;
+		byte[] keyArray = null;
+		Object value = null;
+		for(Entry<String, Object> param:header.getAttachment().entrySet()) {
+			key = param.getKey();
+			keyArray = key.getBytes("UTF-8");
+			sendBuf.writeInt(keyArray.length);
+			sendBuf.writeBytes(keyArray);
+			value = param.getValue();
+			Byte typeValue = AttachmentType.getValueByClazz(value.getClass());
+			if(typeValue==null) {
+				throw new RuntimeException("数据类型不支持："+value.getClass());
+			}
+			sendBuf.writeByte(typeValue);
+			if(value.getClass()==AttachmentType.Byte.getClass()) {
+				sendBuf.writeByte((Byte)value);
+			}else if(value.getClass()==AttachmentType.Byte.getClass()) {
+				sendBuf.writeByte((Byte)value);
+			}else if(value.getClass()==AttachmentType.Short.getClass()) {
+				sendBuf.writeShort((Short)value);
+			}else if(value.getClass()==AttachmentType.Integer.getClass()) {
+				sendBuf.writeInt((Integer)value);
+			}else if(value.getClass()==AttachmentType.Long.getClass()) {
+				sendBuf.writeByte((Long)value);
+			}else if(value.getClass()==AttachmentType.Byte.getClass()) {
+				sendBuf.writeByte((Byte)value);
+			}else if(value.getClass()==AttachmentType.Byte.getClass()) {
+				sendBuf.writeByte((Byte)value);
+			}else if(value.getClass()==AttachmentType.Byte.getClass()) {
+				sendBuf.writeByte((Byte)value);
+			}else if(value.getClass()==AttachmentType.Byte.getClass()) {
+				sendBuf.writeByte((Byte)value);
+			}
+			
+			
+			
+			byte[] valueyBytes = value.toString().getBytes();
+			sendBuf.writeInt(valueyBytes.length);
+			sendBuf.writeBytes(valueyBytes);	
+		}
+		String body = msg.getBody();
+		if (body == null) {
+			sendBuf.writeInt(0);
+		}else {
+			byte[] bodyBytes = body.getBytes();
+			sendBuf.writeInt(bodyBytes.length);
+			sendBuf.writeBytes(bodyBytes);
+		}
+		
+	}
+	public static void main(String[] args) {
+		String a = new String("a");
+		String b = new String("b");
+		System.out.println(a.getClass()==b.getClass());
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.test.thread;
+
+public class TaskRunnable implements Runnable{
+
+	@Override
+	public void run() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+	}
+
+}

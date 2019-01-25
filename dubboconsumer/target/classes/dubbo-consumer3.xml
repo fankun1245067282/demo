@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 整合Dubbo 使用直接连 -->
+	<!-- 第一步：Dubbo起名称 计算用此名称来区分 -->
+	<dubbo:application name="service-consumer" />
+	<dubbo:registry id="registry" address="localhost:2181"
+		protocol="zookeeper" />
+
+	<!-- <dubbo:reference interface="dubbo.test.interfaces.TestTbService" -->
+	<!-- id="testTbService" loadbalance="roundrobin" check="false" protocol="rmi" 
+		/> -->
+
+	<dubbo:reference interface="dubbo.test.interfaces.TestTbService"
+		id="testTbService" loadbalance="roundrobin" check="false" protocol="dubbo" />
+
+
+	<!-- 多注册中心配置 -->
+	<!-- <dubbo:registry id="chinaRegistry" address="10.20.141.150:9090" /> -->
+	<!-- <dubbo:registry id="intlRegistry" address="10.20.154.177:9010" -->
+	<!-- default="false" /> -->
+	<!-- 引用中文站服务 -->
+	<!-- <dubbo:reference id="chinaHelloService" interface="com.alibaba.hello.api.HelloService" 
+		version="1.0.0" registry="chinaRegistry" /> -->
+	<!-- 引用国际站站服务 -->
+	<!-- <dubbo:reference id="intlHelloService" -->
+	<!-- interface="com.alibaba.hello.api.HelloService" version="1.0.0" -->
+	<!-- registry="intlRegistry" /> -->
+
+</beans>

@@ -1,0 +1,6 @@
+package com.fk.test.paxos;
+
+public class Request {
+	private Integer requestNum;
+	private Integer ProposeNum;//提议者的编号（固定不变）
+}

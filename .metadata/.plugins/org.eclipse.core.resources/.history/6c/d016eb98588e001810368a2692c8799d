@@ -1,0 +1,10 @@
+package com.fankun.nio2.server;
+
+public class AsyncTimeClientHandler implements Runnable {
+
+	@Override
+	public void run() {
+		
+	}
+
+}

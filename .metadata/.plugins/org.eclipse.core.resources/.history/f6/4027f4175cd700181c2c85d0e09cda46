@@ -1,0 +1,14 @@
+package com.fk.test.paxos;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Acceptor {
+	
+	public Map<String, String>  propseResponse = new ConcurrentHashMap<>();
+}

@@ -1,0 +1,52 @@
+package com.fankun.netty.server4;
+
+import java.util.Iterator;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.CompositeByteBuf;
+import io.netty.buffer.Unpooled;
+
+public class TestBuf {
+	public static void main(String[] args) {
+		CompositeByteBuf compBuf = Unpooled.compositeBuffer();
+		ByteBuf heapBuf = Unpooled.buffer(8);
+		for (int i = 0; i < heapBuf.readableBytes(); i++) {
+			heapBuf.writeByte(i + 1);
+		}
+		
+		ByteBuf directBuf = Unpooled.directBuffer(16);
+		for (int i = 0; i < directBuf.readableBytes(); i++) {
+			directBuf.writeByte(i + 1);
+			System.out.println("===============");
+		}
+		
+		// 添加ByteBuf到CompositeByteBuf
+		compBuf.addComponents(heapBuf, directBuf);
+		// 删除第一个ByteBuf
+		compBuf.removeComponent(0);
+
+		Iterator<ByteBuf> iter = compBuf.iterator();
+		while (iter.hasNext()) {
+			System.out.println("===============:"+iter.next().toString());
+		}
+		// 使用数组访问数据
+		if (!compBuf.hasArray()) {
+			int len = compBuf.readableBytes();
+			byte[] arr = new byte[len];
+			compBuf.getBytes(0, arr);
+		}
+		
+		
+		
+		// create a ByteBuf of capacity is 16
+		ByteBuf buf = Unpooled.buffer(16);
+		// write data to buf
+		for (int i = 0; i < 16; i++) {
+			buf.writeByte(i + 1);
+		}
+		// read data from buf
+		for (int i = 0; i < buf.capacity(); i++) {
+			System.out.println(buf.getByte(i));
+		}
+	}
+}

@@ -1,0 +1,32 @@
+package com.spring.test.jdbc;
+
+import java.sql.SQLException;
+
+import com.mysql.jdbc.PreparedStatement;
+
+
+public class JdbcTest {
+	
+	public static void main(String[] args) {
+		//最源生的jdbc如何操作？
+		//1、加载驱动类
+		//2、建立连接
+		//3、创建语句集
+		//4、执行
+		//5、获取结果集
+		try {
+			//被封装成了datasource,方法连接池，目的是为了提高相应速度
+			//1 be
+			Class.forName("com.mysql.jdbc.Driver");
+			//2
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","123456");
+			
+			PreparedStatement ps = conn.prepareStatement("select * from lucky_draw ");
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+} 

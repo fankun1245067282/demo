@@ -1,0 +1,3 @@
+dubbo\test\service\TestTbServiceImpl.class
+dubbo\test\main\DubboProvider.class
+dubbo\test\controller\CenterController.class

@@ -1,0 +1,126 @@
+package com.fk.test.thread;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
+public class TestThread2 {
+	
+	public final synchronized void testwait() throws InterruptedException {
+		System.out.println("this is t1 method doing 1");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+		wait(0);
+		System.out.println("this is t1 method doing 2");
+	}
+
+	@Test
+	public void testwaitmain() throws Exception {
+		final TestThread2 testThread2 = new TestThread2();
+		Runnable r1 = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					testThread2.testwait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}};
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r1);
+		t1.start();
+		Thread.sleep(1000);
+		t2.start();
+		System.in.read();
+	}
+	
+	
+	
+	public final synchronized void testsleep() throws InterruptedException {
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 2");
+		Thread.sleep(3000);
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 3");
+	}
+	
+	@Test
+	public void testsleepmain() throws Exception {
+		final TestThread2 testThread2 = new TestThread2();
+		Runnable r1 = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					testThread2.testsleep();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}};
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r1);
+		t1.start();
+		Thread.sleep(1000);
+		t2.start();
+		System.in.read();
+	}
+	
+	public static long max = Long.MAX_VALUE-5;
+	public static long dev = 100000;
+	static {
+		max = max - (max%dev);
+		System.out.println("max===="+max);
+	}
+	public final static void testinterrupt() throws InterruptedException {
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 1");
+		long i = 0;
+		System.out.println("max===="+max);
+		System.out.println("isInterrupted==1=="+Thread.currentThread().isInterrupted());
+		while(!Thread.currentThread().isInterrupted() && i<max ) {
+			i++;
+			if(i%dev==0 ) {
+				System.out.print("(i=="+i+") ");
+			}
+			if(i%(dev*100)==0) {
+				System.out.println();
+			}
+		}
+		if(i%(dev*100)!=0) {
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("isInterrupted==2=="+Thread.currentThread().isInterrupted());
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 2");
+		Thread.sleep(3000);
+		System.out.println("isInterrupted==2=="+Thread.currentThread().isInterrupted());
+		System.out.println("Thread:"+Thread.currentThread().getName()+" this is t1 method doing 3");
+	}
+//	　　interrupted()函数是Thread静态方法，用来检测当前线程的interrupt状态，检测完成后，状态清空。
+//	通过下面的interrupted源码我们能够知道，此方法首先调用isInterrupted方法，
+//	而isInterrupted方法是一个重载的native方法
+//	private native boolean isInterrupted(boolean ClearInterrupted) 
+//	通过方法的注释能够知道，用来测试线程是否已经中断，参数用来决定是否重置中断标志。
+//	    public static boolean interrupted() {
+//	        return currentThread().isInterrupted(true);
+//	    }
+//	    public boolean isInterrupted() {
+//	        return isInterrupted(false);
+//	    }
+
+
+	@Test
+	public void testinterruptmain() throws Exception {
+		Thread t1 = new Thread() {
+			public void run() {
+			try {
+				testinterrupt();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}}
+			};
+		t1.start();
+		Thread.sleep(1000);
+		t1.interrupt();
+		System.in.read();
+	}
+
+}

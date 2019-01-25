@@ -1,0 +1,26 @@
+package com.fk.test;
+
+public class SwepObj {
+	
+	static class Swap{
+		private int id;
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		@Override
+		public String toString() {
+			return "Swap [id=" + id + "]";
+		}
+		
+	}
+	public static void main(String[] args) {
+		
+	}
+}
+

@@ -1,0 +1,5 @@
+package com.spring.test.model.singleton;
+
+public class Singleton4 {
+
+}

@@ -1,0 +1,7 @@
+package com.fankun.netty.server7;
+
+public class TimeServer {
+	public static void main(String[] args) {
+		
+	}
+}

@@ -1,0 +1,9 @@
+package com.fk.test.paxos;
+
+public class TestPaxos {
+	private Integer num = 1;
+	public static Integer getNextNum() {
+		
+	}
+	
+}

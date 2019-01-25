@@ -1,0 +1,9 @@
+package com.fk.test.paxos;
+/**
+ * acceptors
+ * @author Administrator
+ *
+ */
+public class Acceptor {
+
+}

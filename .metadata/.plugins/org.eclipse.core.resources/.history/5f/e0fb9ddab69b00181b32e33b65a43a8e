@@ -1,0 +1,10 @@
+package com.test.thread;
+
+import java.util.concurrent.TimeUnit;
+
+public class TimedRun {
+
+	public static void timerun(Runnable r,long timeout,TimeUnit unit) {
+		
+	}
+}

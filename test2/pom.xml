@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo.test</groupId>
+  <artifactId>test2</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+	<properties>
+<!-- 		3.4.6 -->
+		<zookeeper_version>3.4.11</zookeeper_version>
+<!-- 		<zkclient_version>0.3</zkclient_version> -->
+		<project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
+		<java_source_version>1.8</java_source_version>
+		<java_target_version>1.8</java_target_version>
+		<file_encoding>UTF-8</file_encoding>
+	</properties>
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper -->
+	<dependency>
+	    <groupId>org.apache.zookeeper</groupId>
+	    <artifactId>zookeeper</artifactId>
+	    <version>3.4.11</version>
+<!-- 	    <type>pom</type> -->
+	</dependency>
+  	
+  </dependencies>
+  
+  	<build>
+		<finalName>springframework</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${java_source_version}</source>
+						<target>${java_target_version}</target>
+						<encoding>${file_encoding}</encoding>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

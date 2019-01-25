@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!--1、 指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名）-->
+	<dubbo:application name="gmall-provider"></dubbo:application>
+	
+	<!--2、指定注册中心的位置-->
+<!-- 	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"></dubbo:registry> -->
+	<dubbo:registry  address="zookeeper://127.0.0.1:2181"></dubbo:registry>
+<!-- 	不使用注册中心， 不写会报错-->
+<!-- 	<dubbo:registry  address="N/A"></dubbo:registry> -->
+<!-- 	集群配置 -->
+<!-- 	<dubbo:registry  protocol="zookeeper" address="127.0.0.1:2181,192.168.4.63:2181,192.168.4.66:2181"></dubbo:registry> -->
+<!-- 	<dubbo:registry  address="zookeeper://127.0.0.1:2181?backup=192.168.4.63:2181,192.168.4.66:2181"></dubbo:registry> -->
+	<!--3、指定通讯规则（通讯协议？通讯端口）-->
+	<dubbo:protocol name="dubbo" port="20880"></dubbo:protocol>
+<!-- 		dubbo支持多协议，可以同时使用， 在接口中要指定协议,hessian底层使用的是htttp协议，需要使用web容器 -->
+	<dubbo:protocol name="hessian" port="8090" server="jetty"></dubbo:protocol>
+	
+	<!--4、暴露服务 接口路径，实现类创建的对象-->
+	<dubbo:service interface="com.atguigu.gmall.service.UserService" ref="userServiceImpl" version="1.0.0" protocol="hessian"></dubbo:service>
+	<dubbo:service interface="com.atguigu.gmall.service.UserService" ref="userServiceImpl2" version="2.0.0" ></dubbo:service>>
+	
+	<!--服务的实现-->
+	<bean id="userServiceImpl" class="com.atguigu.gmall.service.impl.UserServiceImpl"></bean>
+		<!--服务的实现-->
+	<bean id="userServiceImpl2" class="com.atguigu.gmall.service.impl.UserServiceImpl2"></bean>
+	
+	
+	<!--自动发现监控中心 -->
+	<dubbo:monitor protocol="registry"></dubbo:monitor>
+	<!--直接连接到注册中心 -->
+	<!--<dubbo:monitor address="127.0.0.1:7070"></dubbo:monitor> -->
+</beans>

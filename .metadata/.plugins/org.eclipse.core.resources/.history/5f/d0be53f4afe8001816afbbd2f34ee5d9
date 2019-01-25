@@ -1,0 +1,12 @@
+package com.fankun.io.channel;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+public class Test {
+	public static void main(String[] args) throws FileNotFoundException {
+		File file = new File("");
+		FileInputStream in=  new FileInputStream(file);
+	}
+}

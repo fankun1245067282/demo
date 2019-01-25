@@ -1,0 +1,29 @@
+package jvmtheory;
+
+public class Test {
+	public volatile long sum = 0;
+	
+	public int add(int a, int b) {
+		int temp = a + b;
+		sum += temp;
+		return temp;
+	}
+ 
+	public static void main(String[] args) {
+		Test test = new Test();
+ 
+		int sum = 0;
+ 
+		for (int i = 0; i < 1000000; i++) {
+			sum = test.add(sum, 1);
+		}
+ 
+		System.out.println("Sum:" + sum);
+		System.out.println("Test.sum:" + test.sum);
+	}
+}
+--------------------- 
+作者：横云断岭 
+来源：CSDN 
+原文：https://blog.csdn.net/hengyunabc/article/details/26898657 
+版权声明：本文为博主原创文章，转载请附上博文链接！

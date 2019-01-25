@@ -1,0 +1,17 @@
+package com.spring.test.aop;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class UserTest {
+    public static void main(String[] args) {  
+    	  
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("myaop.xml");
+  
+        UserService userService = (UserService)ctx.getBean("userService");  
+        userService.addUser();
+//        userService.delUser();
+        FinalService finalService = (FinalService)ctx.getBean("finalService");  
+        finalService.testfinal();//final方法没有被重写
+        ctx.destroy();  
+    }
+}

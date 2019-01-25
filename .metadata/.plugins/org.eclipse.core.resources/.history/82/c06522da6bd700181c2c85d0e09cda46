@@ -1,0 +1,26 @@
+package com.fk.test.paxos;
+
+public class TestPaxos {
+	private static Integer num = 1;
+	public static synchronized  Integer getNextNum() {
+		num++;
+		return num;
+	}
+	
+	public static void main(String[] args) {
+		Acceptor[] acceptors = new Acceptor[5];
+		for (int i = 1; i <= acceptors.length; i++) {
+			acceptors[i] = new Acceptor("acceptor"+i);
+		}
+		for (int i = 1; i <= acceptors.length; i++) {
+			acceptors[i].start();
+		}
+		
+		Proposer[] proposers = new Proposer[10];
+		for (int i = 1; i <= proposers.length; i++) {
+			proposers[i] = new Proposer("proposer"+i,acceptors,i);
+		}
+		Proposer
+		
+	}
+}

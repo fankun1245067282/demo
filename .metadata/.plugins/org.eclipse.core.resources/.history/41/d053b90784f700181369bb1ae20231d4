@@ -1,0 +1,11 @@
+package com.fk.test.thread;
+
+public class TestThread2 {
+	
+	public static synchronized t1() {
+		
+	}
+	public static void main(String[] args) {
+		
+	}
+}

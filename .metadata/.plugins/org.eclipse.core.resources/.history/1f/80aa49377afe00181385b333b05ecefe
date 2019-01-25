@@ -1,0 +1,10 @@
+package com.fk.test.cpu;
+
+public class ToHex {
+	public static void main(String[] args) {
+		Integer n = 1000;
+		System.out.println(Integer.toHexString(5012));
+		//1394
+		//131c
+	}
+}

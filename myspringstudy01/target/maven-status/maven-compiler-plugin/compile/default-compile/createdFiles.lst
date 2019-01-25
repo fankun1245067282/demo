@@ -1,0 +1,13 @@
+com\spring\test\main\StartMain.class
+com\spring\test\bean\User.class
+com\spring\test\aop\annotation\UserAction.class
+com\spring\test\aop\annotation\LogIntercept.class
+com\spring\test\util\WebUtils$DefaultTrustManager.class
+com\spring\test\factory_method\Car.class
+com\spring\test\util\WebUtils.class
+com\spring\test\factory_method\CarStaticFactory.class
+com\spring\test\factory_method\Main.class
+com\spring\test\factorybean\MainFactoryBean.class
+com\spring\test\util\WebUtils$1.class
+com\spring\test\factory_method\CarInstanceFactory.class
+com\spring\test\factorybean\MyFactoryBean.class

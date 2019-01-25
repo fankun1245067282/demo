@@ -1,0 +1,7 @@
+package com.fankun.io.channel;
+
+public class Test {
+	public static void main(String[] args) {
+		Channel v1;
+	}
+}

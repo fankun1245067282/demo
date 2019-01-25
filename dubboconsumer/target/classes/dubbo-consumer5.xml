@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 整合Dubbo 分组聚合 参数验证 -->
+	<!-- 第一步：Dubbo起名称 计算用此名称来区分 -->
+	<dubbo:application name="service-consumer" />
+	<!-- 第二步：中介 注册中心: zookeeper redis ... -->
+	<!-- 关闭注册中心启动时检查 (注册订阅失败时报错)： check="false" -->
+	<dubbo:registry address="127.0.0.1:2181" protocol="zookeeper"
+		register="false" check="false" />
+	<!-- 第三步：设置dubbo的端口号 接口 -->
+	<dubbo:protocol name="dubbo" />
+	<!-- 第四步：设置服务提供方 提供的接口 ,这种合并就是调用两个方法，即是调用两次 -->
+	<!-- <dubbo:reference interface="dubbo.test.interfaces.TestTbService" -->
+	<!-- id="testTbService" loadbalance="roundrobin" check="false" group="test1,test2" 
+		merger="true" /> -->
+
+	<bean id="mymerger" class="dubbo.test.bean.MyMerger"></bean>
+	<dubbo:reference interface="dubbo.test.interfaces.TestTbService"
+		id="testTbService" loadbalance="roundrobin" check="false" group="test1,test2"
+		merger="true" />
+
+	<!-- validation="true" 加上这个字段才会校验，否则不会校验 -->
+	<dubbo:reference id="validationService" validation="true"
+		interface="dubbo.test.interfaces.ValidationService"  />
+
+	<!-- cache="true"开启缓存,就是接口调用，相同的参数的结果会缓存，参数相同，不会再调用接口，直接返回缓存结果 -->
+	<!-- 如果方法参数相同，返回值相同的方法才正确，否则不应该缓存 -->
+	<dubbo:reference id="cacheService" cache="true" interface="dubbo.test.interfaces.CacheService"  />
+	
+	
+	<dubbo:reference id="barService" interface="dubbo.test.interfaces.BarService" stub="dubbo.test.bean.StubBarServiceProxy"  />
+	<!-- 搜索所有分组 -->
+
+	<!-- <dubbo:reference interface="com.xxx.MenuService" group="*" merger="true" 
+		/> -->
+	<!-- 合并指定分组 -->
+
+	<!-- <dubbo:reference interface="com.xxx.MenuService" group="aaa,bbb" merger="true" 
+		/> -->
+	<!-- 指定方法合并结果，其它未指定的方法，将只调用一个 Group -->
+
+	<!-- <dubbo:reference interface="com.xxx.MenuService" group="*"> -->
+	<!-- <dubbo:method name="getMenuItems" merger="true" /> -->
+	<!-- </dubbo:service> -->
+	<!-- 某个方法不合并结果，其它都合并结果 -->
+
+	<!-- <dubbo:reference interface="com.xxx.MenuService" group="*" merger="true"> -->
+	<!-- <dubbo:method name="getMenuItems" merger="false" /> -->
+	<!-- </dubbo:service> -->
+	<!-- 指定合并策略，缺省根据返回值类型自动匹配，如果同一类型有两个合并器时，需指定合并器的名称 2 -->
+
+	<!-- <dubbo:reference interface="com.xxx.MenuService" group="*"> -->
+	<!-- <dubbo:method name="getMenuItems" merger="mymerge" /> -->
+	<!-- </dubbo:service> -->
+	<!-- 指定合并方法，将调用返回结果的指定方法进行合并，合并方法的参数类型必须是返回结果类型本身 -->
+
+	<!-- <dubbo:reference interface="com.xxx.MenuService" group="*"> -->
+	<!-- <dubbo:method name="getMenuItems" merger=".addAll" /> -->
+	<!-- </dubbo:service> -->
+
+</beans>

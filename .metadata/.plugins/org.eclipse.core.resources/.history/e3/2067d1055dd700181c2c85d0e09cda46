@@ -1,0 +1,17 @@
+package com.fk.test.paxos;
+/**
+ * 决策者
+ * @author Administrator
+ *
+ */
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Acceptor {
+	
+	public List<Request> requests = new LinkedBlockingQueue();
+	public Map<String, String>  propseResponse = new ConcurrentHashMap<>();
+}

@@ -1,0 +1,5 @@
+package com.fk.test.paxos;
+
+public class Request {
+
+}
